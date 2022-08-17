@@ -46,7 +46,7 @@ export class PageComponent implements AfterViewInit {
     fetch(`/assets/pages/${this.pageId}.html`)
       .then((response) => response.text())
       .then((html) => {
-        this.container.nativeElement.innerHTML = html;
+        this.container.nativeElement.firstChild.innerHTML = html;
         this.loadState = 'success';
 
         const mediaElements = $(this.container.nativeElement).find(
@@ -59,16 +59,6 @@ export class PageComponent implements AfterViewInit {
             });
           },
         });
-
-        $(this.container.nativeElement)
-          .find('iframe')
-          .on('load', (event) => {
-            const iframe = event.target;
-            iframe.contentDocument?.body.style.setProperty(
-              'zoom',
-              this.zoom.toString()
-            );
-          });
       })
       .catch((err) => {
         this.loadState = 'error';
